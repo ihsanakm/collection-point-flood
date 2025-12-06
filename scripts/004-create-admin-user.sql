@@ -13,8 +13,8 @@
 INSERT INTO admin_users (id, display_name, role)
 VALUES 
   -- This is a placeholder UUID - replace with real auth user ID
-  ('00000000-0000-0000-0000-000000000001', 'Super Admin', 'super_admin'),
-  ('00000000-0000-0000-0000-000000000002', 'Test Moderator', 'moderator')
+  ('6dfa8fc4-087b-4259-8881-335420cce44f', 'Super Admin', 'super_admin'),
+  ('02695a9e-2379-4917-b4fb-83ac3fdb3a24', 'Test Moderator', 'moderator')
 ON CONFLICT (id) DO UPDATE SET
   display_name = EXCLUDED.display_name,
   role = EXCLUDED.role;

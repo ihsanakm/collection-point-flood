@@ -19,6 +19,7 @@ export default function MapPage() {
     async function fetchData() {
       const supabase = createClient()
 
+      console.log("Fetching map data...")
       const [pointsRes, categoriesRes] = await Promise.all([
         supabase
           .from("collection_points")
@@ -27,6 +28,16 @@ export default function MapPage() {
           .order("created_at", { ascending: false }),
         supabase.from("item_categories").select("*"),
       ])
+
+      if (pointsRes.error) {
+        console.error("Error fetching points:", pointsRes.error)
+      } else {
+        console.log("Fetched points:", pointsRes.data?.length)
+      }
+
+      if (categoriesRes.error) {
+        console.error("Error fetching categories:", categoriesRes.error)
+      }
 
       if (pointsRes.data) setPoints(pointsRes.data)
       if (categoriesRes.data) setCategories(categoriesRes.data)
