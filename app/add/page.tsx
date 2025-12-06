@@ -3,6 +3,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import dynamic from "next/dynamic"
 import { Header } from "@/components/header"
 import { BottomNav } from "@/components/bottom-nav"
 import { Button } from "@/components/ui/button"
@@ -14,9 +15,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/components/language-provider"
 import { createClient } from "@/lib/supabase/client"
-import { LocationPicker } from "@/components/location-picker"
 import type { ItemCategory } from "@/lib/types"
 import { MapPin, Loader2 } from "lucide-react"
+
+// Dynamically import LocationPicker to avoid SSR issues with Leaflet
+const LocationPicker = dynamic(
+  () => import("@/components/location-picker").then((mod) => mod.LocationPicker),
+  { ssr: false, loading: () => <div className="flex items-center justify-center h-screen">Loading map...</div> }
+)
 
 export default function AddPointPage() {
   const router = useRouter()

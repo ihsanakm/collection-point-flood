@@ -1,13 +1,19 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import dynamic from "next/dynamic"
 import { Header } from "@/components/header"
 import { BottomNav } from "@/components/bottom-nav"
-import { MapView } from "@/components/map-view"
 import { CollectionPointSheet } from "@/components/collection-point-sheet"
 import { createClient } from "@/lib/supabase/client"
 import type { CollectionPoint, ItemCategory } from "@/lib/types"
 import { Loader2 } from "lucide-react"
+
+// Dynamically import MapView to avoid SSR issues with Leaflet
+const MapView = dynamic(
+  () => import("@/components/map-view").then((mod) => mod.MapView),
+  { ssr: false, loading: () => <div className="flex h-full items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div> }
+)
 
 export default function MapPage() {
   const [points, setPoints] = useState<CollectionPoint[]>([])
